@@ -7,7 +7,7 @@ The project was initially scaffolded using [Lovable](https://lovable.dev/) to sp
 
 ## 🚀 Live Demo
 
-[![View Demo](https://img.shields.io/badge/🚀_Live_Demo-Click_here-blue?style=for-the-badge)](https://lovable.dev/projects/032bea0f-5932-48d3-9f3f-6d91b71bbdda)  
+[![View Demo](https://img.shields.io/badge/🚀_Live_Demo-Click_here-blue?style=for-the-badge)](https://feel-diary.vercel.app/)  
 🧭 Hosted on **Lovable.dev**
 
 ---
