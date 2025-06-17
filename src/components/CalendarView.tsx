@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { useAuth } from '@/hooks/useAuth';
@@ -10,6 +11,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
+import { CalendarDays, Edit, Save, Trash2, BarChart3 } from 'lucide-react';
+import { MoodInsights } from './MoodInsights';
 
 const moodEmojis = ['😢', '😞', '😐', '😊', '😄'];
 const moodColors = ['bg-red-100 border-red-300', 'bg-orange-100 border-orange-300', 'bg-yellow-100 border-yellow-300', 'bg-green-100 border-green-300', 'bg-blue-100 border-blue-300'];
@@ -143,49 +146,66 @@ export const CalendarView = () => {
   }
 
   return (
-    <>
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('calendar')}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={handleDateClick}
-            className="rounded-md border"
-            modifiers={{
-              mood: (date) => !!getMoodForDate(date),
-            }}
-            modifiersClassNames={{
-              mood: 'bg-primary text-primary-foreground',
-            }}
-            components={{
-              Day: ({ date, ...props }) => {
-                const entry = getMoodForDate(date);
-                return (
-                  <div className="relative">
-                    <button {...props}>
-                      {date.getDate()}
-                      {entry && (
-                        <div className="absolute -top-1 -right-1 text-xs">
-                          {entry.mood_emoji}
-                        </div>
-                      )}
-                    </button>
-                  </div>
-                );
-              },
-            }}
-          />
-          
-          <div className="mt-4 space-y-2">
-            <h3 className="font-medium">Recent Entries</h3>
-            <div className="space-y-2 max-h-64 overflow-y-auto">
-              {moodEntries.slice(0, 10).map((entry) => (
+    <div className="space-y-6">
+      {/* Calendar and Recent Entries */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2 hover:shadow-lg transition-shadow duration-200">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <CalendarDays className="h-5 w-5" />
+              <span>{t('calendar')}</span>
+              <Badge variant="secondary">{moodEntries.length} {t('entries')}</Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={handleDateClick}
+              className="rounded-md border w-full"
+              modifiers={{
+                mood: (date) => !!getMoodForDate(date),
+              }}
+              modifiersClassNames={{
+                mood: 'bg-primary text-primary-foreground hover:bg-primary/90',
+              }}
+              components={{
+                Day: ({ date, ...props }) => {
+                  const entry = getMoodForDate(date);
+                  return (
+                    <div className="relative">
+                      <button
+                        {...props}
+                        className={entry ? 'font-bold' : ''}
+                      >
+                        {date.getDate()}
+                        {entry && (
+                          <div className="absolute -top-1 -right-1 text-lg">
+                            {entry.mood_emoji}
+                          </div>
+                        )}
+                      </button>
+                    </div>
+                  );
+                },
+              }}
+            />
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow duration-200">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <BarChart3 className="h-5 w-5" />
+              <span>Recent Entries</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {moodEntries.slice(0, 8).map((entry) => (
                 <div
                   key={entry.id}
-                  className={`p-3 rounded-lg border cursor-pointer hover:shadow-sm transition-shadow ${
+                  className={`p-3 rounded-lg border cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-105 ${
                     moodColors[parseInt(entry.mood_scale) - 1]
                   }`}
                   onClick={() => {
@@ -195,50 +215,68 @@ export const CalendarView = () => {
                     setIsDialogOpen(true);
                   }}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center space-x-2">
-                      <span className="text-lg">{entry.mood_emoji}</span>
-                      <span className="font-medium">{format(new Date(entry.date), 'MMM dd, yyyy')}</span>
+                      <span className="text-xl">{entry.mood_emoji}</span>
+                      <span className="font-medium text-sm">{format(new Date(entry.date), 'MMM dd')}</span>
                     </div>
-                    <span className="text-sm text-muted-foreground">
+                    <Badge variant="outline" className="text-xs">
                       {getMoodLabel(parseInt(entry.mood_scale))}
-                    </span>
+                    </Badge>
                   </div>
                   {entry.notes && (
-                    <p className="text-sm text-muted-foreground mt-1 truncate">
+                    <p className="text-xs text-muted-foreground line-clamp-2">
                       {entry.notes}
                     </p>
                   )}
                 </div>
               ))}
+              {moodEntries.length === 0 && (
+                <div className="text-center py-8 text-muted-foreground">
+                  <CalendarDays className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p>{t('noMoodEntries')}</p>
+                  <p className="text-xs">{t('startTracking')}</p>
+                </div>
+              )}
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Mood Insights */}
+      <MoodInsights moodData={moodEntries} />
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>
-              {selectedEntry && format(new Date(selectedEntry.date), 'MMMM dd, yyyy')}
+            <DialogTitle className="flex items-center space-x-2">
+              <Edit className="h-5 w-5" />
+              <span>
+                {selectedEntry && format(new Date(selectedEntry.date), 'MMMM dd, yyyy')}
+              </span>
             </DialogTitle>
           </DialogHeader>
-          
+
           {selectedEntry && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
-                <label className="text-sm font-medium mb-2 block">Mood</label>
-                <div className="flex space-x-2">
+                <label className="text-sm font-medium mb-3 block flex items-center space-x-2">
+                  <span>Mood Rating</span>
+                  <Badge variant="outline">{getMoodLabel(editingMood)}</Badge>
+                </label>
+                <div className="grid grid-cols-5 gap-2">
                   {moodEmojis.map((emoji, index) => (
                     <Button
                       key={index}
                       variant={editingMood === index + 1 ? 'default' : 'outline'}
-                      className="flex-1 h-12"
+                      className={`h-16 transition-all duration-200 ${
+                        editingMood === index + 1 ? 'scale-105 shadow-lg' : 'hover:scale-105'
+                      }`}
                       onClick={() => setEditingMood(index + 1)}
                     >
                       <div className="text-center">
-                        <div className="text-lg">{emoji}</div>
-                        <div className="text-xs">{getMoodLabel(index + 1)}</div>
+                        <div className="text-2xl mb-1">{emoji}</div>
+                        <div className="text-xs font-medium">{getMoodLabel(index + 1)}</div>
                       </div>
                     </Button>
                   ))}
@@ -246,31 +284,44 @@ export const CalendarView = () => {
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-2 block">Notes</label>
+                <label className="text-sm font-medium mb-2 block flex items-center space-x-2">
+                  <Edit className="h-4 w-4" />
+                  <span>Notes</span>
+                  <span className="text-xs text-muted-foreground">(Optional)</span>
+                </label>
                 <Textarea
                   value={editingNotes}
                   onChange={(e) => setEditingNotes(e.target.value)}
-                  placeholder="Add your thoughts..."
-                  className="min-h-[100px]"
+                  placeholder="What influenced your mood? Any thoughts or reflections..."
+                  className="min-h-[120px] resize-none"
+                  maxLength={500}
                 />
+                <p className="text-xs text-muted-foreground mt-1">
+                  {editingNotes.length}/500 characters
+                </p>
               </div>
 
-              <div className="flex space-x-2">
-                <Button onClick={updateMoodEntry} className="flex-1">
+              <div className="flex space-x-3">
+                <Button
+                  onClick={updateMoodEntry}
+                  className="flex-1 h-11"
+                  size="lg"
+                >
+                  <Save className="h-4 w-4 mr-2" />
                   {t('save')}
                 </Button>
-                <Button 
-                  variant="destructive" 
+                <Button
+                  variant="destructive"
                   onClick={deleteMoodEntry}
-                  className="flex-1"
+                  className="h-11 px-6"
                 >
-                  {t('delete')}
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
             </div>
           )}
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 };

@@ -1,6 +1,6 @@
 
 import { Button } from '@/components/ui/button';
-import { Calendar, BarChart3, User, LogOut, Sun, Moon, Languages } from 'lucide-react';
+import { Calendar, BarChart3, User, LogOut, Sun, Moon, Languages, Heart } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/useTheme';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,7 @@ export const Navbar = ({ activeTab, setActiveTab }: NavbarProps) => {
   const navItems = [
     { key: 'dashboard', icon: BarChart3, label: t('dashboard') },
     { key: 'calendar', icon: Calendar, label: t('calendar') },
+    { key: 'wellness', icon: Heart, label: t('wellness') },
     { key: 'profile', icon: User, label: t('profile') },
   ];
 

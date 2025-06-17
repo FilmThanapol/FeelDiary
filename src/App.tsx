@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +9,7 @@ import { ThemeProvider } from './hooks/useTheme';
 import { Navbar } from './components/Navbar';
 import { Dashboard } from './components/Dashboard';
 import { CalendarView } from './components/CalendarView';
+import { WellnessHub } from './components/WellnessHub';
 import { Profile } from './components/Profile';
 import { AuthPage } from './components/AuthPage';
 import './lib/i18n';
@@ -36,13 +37,32 @@ function AppContent() {
   }
 
   const renderContent = () => {
-    switch (activeTab) {
-      case 'calendar':
-        return <CalendarView />;
-      case 'profile':
-        return <Profile />;
-      default:
-        return <Dashboard />;
+    try {
+      switch (activeTab) {
+        case 'calendar':
+          return <CalendarView />;
+        case 'wellness':
+          return <WellnessHub />;
+        case 'profile':
+          return <Profile />;
+        case 'dashboard':
+        default:
+          return <Dashboard />;
+      }
+    } catch (error) {
+      console.error('Error rendering content:', error);
+      return (
+        <div className="p-8 text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">⚠️ Component Error</h2>
+          <p className="text-gray-600 mb-4">There was an error loading this section: {error.message}</p>
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Go to Dashboard
+          </button>
+        </div>
+      );
     }
   };
 
@@ -69,5 +89,7 @@ const App = () => (
     </ThemeProvider>
   </QueryClientProvider>
 );
+
+
 
 export default App;

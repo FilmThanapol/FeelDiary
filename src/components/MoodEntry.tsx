@@ -3,13 +3,16 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
+import { Heart, Save, Edit3 } from 'lucide-react';
 
 const moodEmojis = ['😢', '😞', '😐', '😊', '😄'];
 const moodColors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500', 'bg-blue-500'];
+// These will be translated dynamically in the component
 
 export const MoodEntry = () => {
   const { user } = useAuth();
@@ -108,6 +111,17 @@ export const MoodEntry = () => {
     return labels[mood - 1];
   };
 
+  const getMoodDescription = (mood: number) => {
+    const descriptions = [
+      t('havingToughDay'),
+      t('feelingDown'),
+      t('neutralFeeling'),
+      t('feelingPositive'),
+      t('amazingDay')
+    ];
+    return descriptions[mood - 1];
+  };
+
   if (loading) {
     return (
       <Card>
@@ -119,56 +133,98 @@ export const MoodEntry = () => {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
-          <span>{t('todayMood')}</span>
+    <Card className="relative overflow-hidden border-t-4 border-t-primary hover:shadow-lg transition-all duration-300">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Heart className="h-5 w-5 text-red-500" />
+            <span>{t('todayMood')}</span>
+            {todayEntry && (
+              <Badge variant="secondary" className="ml-2">
+                Updated
+              </Badge>
+            )}
+          </div>
           {todayEntry && (
-            <span className="text-2xl">{todayEntry.mood_emoji}</span>
+            <div className="flex items-center space-x-2">
+              <span className="text-3xl animate-pulse">{todayEntry.mood_emoji}</span>
+              <Badge variant="outline">{getMoodLabel(parseInt(todayEntry.mood_scale))}</Badge>
+            </div>
           )}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
-          <h3 className="text-sm font-medium mb-3">{t('howAreYou')}</h3>
-          <div className="flex justify-between space-x-2">
+          <h3 className="text-sm font-medium mb-4 flex items-center space-x-2">
+            <span>{t('howAreYou')}</span>
+            {selectedMood > 0 && (
+              <Badge variant="outline" className="text-xs">
+                {getMoodDescription(selectedMood)}
+              </Badge>
+            )}
+          </h3>
+          <div className="grid grid-cols-5 gap-3">
             {moodEmojis.map((emoji, index) => (
               <Button
                 key={index}
                 variant={selectedMood === index + 1 ? 'default' : 'outline'}
-                className={`flex-1 h-16 text-2xl ${
-                  selectedMood === index + 1 ? moodColors[index] : ''
+                className={`h-20 text-3xl transition-all duration-200 hover:scale-105 ${
+                  selectedMood === index + 1
+                    ? `${moodColors[index]} text-white shadow-lg scale-105`
+                    : 'hover:bg-muted'
                 }`}
                 onClick={() => setSelectedMood(index + 1)}
               >
                 <div className="text-center">
-                  <div>{emoji}</div>
-                  <div className="text-xs mt-1">{getMoodLabel(index + 1)}</div>
+                  <div className="mb-1">{emoji}</div>
+                  <div className="text-xs font-medium">{getMoodLabel(index + 1)}</div>
                 </div>
               </Button>
             ))}
           </div>
         </div>
 
-        <div>
-          <label className="text-sm font-medium mb-2 block">
-            {t('addNotes')}
+        <div className="space-y-3">
+          <label className="text-sm font-medium flex items-center space-x-2">
+            <Edit3 className="h-4 w-4" />
+            <span>{t('addNotes')}</span>
+            <span className="text-xs text-muted-foreground">(Optional)</span>
           </label>
           <Textarea
-            placeholder="What's on your mind?"
+            placeholder={t('notesPlaceholder')}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="min-h-[100px]"
+            className="min-h-[120px] resize-none transition-all duration-200 focus:ring-2 focus:ring-primary/20"
+            maxLength={500}
           />
+          <p className="text-xs text-muted-foreground">
+            {notes.length}/500 characters
+          </p>
         </div>
 
-        <Button
-          onClick={saveMoodEntry}
-          disabled={selectedMood === null || !user}
-          className="w-full"
-        >
-          {todayEntry ? t('updateMood') : t('saveMood')}
-        </Button>
+        <div className="flex space-x-3">
+          <Button
+            onClick={saveMoodEntry}
+            disabled={selectedMood === null || !user}
+            className="flex-1 h-12 text-base font-medium transition-all duration-200 hover:scale-105"
+            size="lg"
+          >
+            <Save className="h-4 w-4 mr-2" />
+            {todayEntry ? t('updateMood') : t('saveMood')}
+          </Button>
+          {todayEntry && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setSelectedMood(parseInt(todayEntry.mood_scale));
+                setNotes(todayEntry.notes || '');
+              }}
+              className="h-12 px-6"
+            >
+              Reset
+            </Button>
+          )}
+        </div>
 
         {!user && (
           <p className="text-sm text-muted-foreground text-center">
