@@ -171,16 +171,16 @@ export const WellnessHub = ({ currentMoodAverage = 3 }: WellnessHubProps) => {
         </CardHeader>
       </Card>
 
-      <Tabs defaultValue="goals" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="goals">{t('moodGoals')}</TabsTrigger>
-          <TabsTrigger value="exercises">{t('breathingExercise')}</TabsTrigger>
-          <TabsTrigger value="tips">{t('wellnessTips')}</TabsTrigger>
-          <TabsTrigger value="resources">{t('emergencyResources')}</TabsTrigger>
+      <Tabs defaultValue="goals" className="space-y-4 sm:space-y-6">
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto">
+          <TabsTrigger value="goals" className="text-xs sm:text-sm">{t('moodGoals')}</TabsTrigger>
+          <TabsTrigger value="exercises" className="text-xs sm:text-sm">{t('breathingExercise')}</TabsTrigger>
+          <TabsTrigger value="tips" className="text-xs sm:text-sm">{t('wellnessTips')}</TabsTrigger>
+          <TabsTrigger value="resources" className="text-xs sm:text-sm">{t('emergencyResources')}</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="goals" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TabsContent value="goals" className="space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {getMoodGoals().map((goal) => (
               <Card key={goal.id} className="hover:shadow-lg transition-shadow duration-200">
                 <CardContent className="p-6">
@@ -236,17 +236,17 @@ export const WellnessHub = ({ currentMoodAverage = 3 }: WellnessHubProps) => {
             <CardContent>
               <div className="text-center space-y-6">
                 <div className="relative">
-                  <div className={`w-32 h-32 mx-auto rounded-full border-4 border-blue-500 flex items-center justify-center transition-all duration-1000 ${
-                    breathingActive ? 
+                  <div className={`w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full border-4 border-blue-500 flex items-center justify-center transition-all duration-1000 ${
+                    breathingActive ?
                       breathingPhase === 'inhale' ? 'scale-125 bg-blue-100' :
                       breathingPhase === 'hold' ? 'scale-125 bg-yellow-100' :
                       'scale-75 bg-green-100'
                     : 'bg-gray-100'
                   }`}>
                     <div className="text-center">
-                      <p className="text-lg font-semibold">{getBreathingInstruction()}</p>
+                      <p className="text-sm sm:text-lg font-semibold">{getBreathingInstruction()}</p>
                       {breathingActive && (
-                        <p className="text-sm text-muted-foreground">Cycle {breathingCount + 1}/6</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground">Cycle {breathingCount + 1}/6</p>
                       )}
                     </div>
                   </div>
@@ -276,7 +276,7 @@ export const WellnessHub = ({ currentMoodAverage = 3 }: WellnessHubProps) => {
           </Card>
 
           {/* Quick Exercises */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <Card className="hover:shadow-lg transition-shadow duration-200 cursor-pointer">
               <CardContent className="p-6 text-center">
                 <Music className="h-8 w-8 mx-auto mb-3 text-purple-500" />
@@ -303,8 +303,8 @@ export const WellnessHub = ({ currentMoodAverage = 3 }: WellnessHubProps) => {
           </div>
         </TabsContent>
 
-        <TabsContent value="tips" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TabsContent value="tips" className="space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {getWellnessTips().map((category, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow duration-200">
                 <CardHeader>

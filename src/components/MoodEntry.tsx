@@ -163,12 +163,12 @@ export const MoodEntry = () => {
               </Badge>
             )}
           </h3>
-          <div className="grid grid-cols-5 gap-3">
+          <div className="grid grid-cols-5 gap-2 sm:gap-3">
             {moodEmojis.map((emoji, index) => (
               <Button
                 key={index}
                 variant={selectedMood === index + 1 ? 'default' : 'outline'}
-                className={`h-20 text-3xl transition-all duration-200 hover:scale-105 ${
+                className={`h-16 sm:h-20 text-2xl sm:text-3xl transition-all duration-200 hover:scale-105 ${
                   selectedMood === index + 1
                     ? `${moodColors[index]} text-white shadow-lg scale-105`
                     : 'hover:bg-muted'
@@ -177,7 +177,7 @@ export const MoodEntry = () => {
               >
                 <div className="text-center">
                   <div className="mb-1">{emoji}</div>
-                  <div className="text-xs font-medium">{getMoodLabel(index + 1)}</div>
+                  <div className="text-xs font-medium hidden sm:block">{getMoodLabel(index + 1)}</div>
                 </div>
               </Button>
             ))}
@@ -202,7 +202,7 @@ export const MoodEntry = () => {
           </p>
         </div>
 
-        <div className="flex space-x-3">
+        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
           <Button
             onClick={saveMoodEntry}
             disabled={selectedMood === null || !user}

@@ -187,7 +187,7 @@ export const Dashboard = () => {
       <MoodEntry />
 
       {/* Enhanced Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="relative overflow-hidden border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow duration-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -265,7 +265,7 @@ export const Dashboard = () => {
       </div>
 
       {/* Enhanced Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
         <Card className="hover:shadow-lg transition-shadow duration-200">
           <CardHeader>
             <div className="flex justify-between items-center">
@@ -273,11 +273,12 @@ export const Dashboard = () => {
                 <TrendingUp className="h-5 w-5" />
                 <span>{t('moodTrends')}</span>
               </CardTitle>
-              <div className="flex space-x-2">
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                 <Button
                   variant={timeRange === '7' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setTimeRange('7')}
+                  className="text-xs sm:text-sm"
                 >
                   {t('last7Days')}
                 </Button>
@@ -285,6 +286,7 @@ export const Dashboard = () => {
                   variant={timeRange === '30' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setTimeRange('30')}
+                  className="text-xs sm:text-sm"
                 >
                   {t('last30Days')}
                 </Button>
@@ -292,7 +294,7 @@ export const Dashboard = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="h-80">
+            <div className="h-64 sm:h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={prepareChartData()}>
                   <defs>
@@ -343,7 +345,7 @@ export const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-80">
+            <div className="h-64 sm:h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -382,7 +384,7 @@ export const Dashboard = () => {
       </div>
 
       {/* Insights Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <Card className="lg:col-span-2 hover:shadow-lg transition-shadow duration-200">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">

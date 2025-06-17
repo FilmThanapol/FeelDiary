@@ -148,7 +148,7 @@ export const CalendarView = () => {
   return (
     <div className="space-y-6">
       {/* Calendar and Recent Entries */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <Card className="lg:col-span-2 hover:shadow-lg transition-shadow duration-200">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
@@ -247,7 +247,7 @@ export const CalendarView = () => {
       <MoodInsights moodData={moodEntries} />
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md mx-2 sm:mx-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center space-x-2">
               <Edit className="h-5 w-5" />
@@ -264,19 +264,19 @@ export const CalendarView = () => {
                   <span>Mood Rating</span>
                   <Badge variant="outline">{getMoodLabel(editingMood)}</Badge>
                 </label>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-5 gap-1 sm:gap-2">
                   {moodEmojis.map((emoji, index) => (
                     <Button
                       key={index}
                       variant={editingMood === index + 1 ? 'default' : 'outline'}
-                      className={`h-16 transition-all duration-200 ${
+                      className={`h-12 sm:h-16 transition-all duration-200 ${
                         editingMood === index + 1 ? 'scale-105 shadow-lg' : 'hover:scale-105'
                       }`}
                       onClick={() => setEditingMood(index + 1)}
                     >
                       <div className="text-center">
-                        <div className="text-2xl mb-1">{emoji}</div>
-                        <div className="text-xs font-medium">{getMoodLabel(index + 1)}</div>
+                        <div className="text-lg sm:text-2xl mb-1">{emoji}</div>
+                        <div className="text-xs font-medium hidden sm:block">{getMoodLabel(index + 1)}</div>
                       </div>
                     </Button>
                   ))}
@@ -301,7 +301,7 @@ export const CalendarView = () => {
                 </p>
               </div>
 
-              <div className="flex space-x-3">
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                 <Button
                   onClick={updateMoodEntry}
                   className="flex-1 h-11"
