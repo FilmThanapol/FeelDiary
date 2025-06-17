@@ -9,7 +9,75 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      mood_entries: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          mood_emoji: string | null
+          mood_scale: Database["public"]["Enums"]["mood_scale"]
+          notes: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          mood_emoji?: string | null
+          mood_scale: Database["public"]["Enums"]["mood_scale"]
+          notes?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          mood_emoji?: string | null
+          mood_scale?: Database["public"]["Enums"]["mood_scale"]
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          daily_reminder: boolean | null
+          full_name: string | null
+          id: string
+          language: string | null
+          reminder_time: string | null
+          theme: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          daily_reminder?: boolean | null
+          full_name?: string | null
+          id: string
+          language?: string | null
+          reminder_time?: string | null
+          theme?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          daily_reminder?: boolean | null
+          full_name?: string | null
+          id?: string
+          language?: string | null
+          reminder_time?: string | null
+          theme?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +86,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      mood_scale: "1" | "2" | "3" | "4" | "5"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +201,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      mood_scale: ["1", "2", "3", "4", "5"],
+    },
   },
 } as const
