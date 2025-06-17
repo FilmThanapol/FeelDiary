@@ -62,7 +62,7 @@ export const MoodEntry = () => {
       const moodData = {
         user_id: user.id,
         date: today,
-        mood_scale: selectedMood.toString(),
+        mood_scale: selectedMood.toString() as "1" | "2" | "3" | "4" | "5",
         mood_emoji: moodEmojis[selectedMood - 1],
         notes: notes.trim() || null,
       };

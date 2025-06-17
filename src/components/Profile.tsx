@@ -42,7 +42,9 @@ export const Profile = () => {
         setReminderTime(data.reminder_time || '20:00');
         
         // Set theme and language from profile
-        if (data.theme) setTheme(data.theme);
+        if (data.theme && (data.theme === 'light' || data.theme === 'dark')) {
+          setTheme(data.theme);
+        }
         if (data.language) i18n.changeLanguage(data.language);
       }
     } catch (error) {

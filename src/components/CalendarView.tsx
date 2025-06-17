@@ -74,7 +74,7 @@ export const CalendarView = () => {
       const { error } = await supabase
         .from('mood_entries')
         .update({
-          mood_scale: editingMood.toString(),
+          mood_scale: editingMood.toString() as "1" | "2" | "3" | "4" | "5",
           mood_emoji: moodEmojis[editingMood - 1],
           notes: editingNotes.trim() || null,
         })
@@ -165,7 +165,7 @@ export const CalendarView = () => {
                 const entry = getMoodForDate(date);
                 return (
                   <div className="relative">
-                    <button {...props} className={props.className}>
+                    <button {...props}>
                       {date.getDate()}
                       {entry && (
                         <div className="absolute -top-1 -right-1 text-xs">
