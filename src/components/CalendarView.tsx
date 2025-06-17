@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
@@ -138,7 +137,7 @@ export const CalendarView = () => {
   if (!user) {
     return (
       <Card>
-        <CardContent className="p-6 text-center">
+        <CardContent className="p-4 sm:p-6 text-center">
           <p className="text-muted-foreground">{t('guestModeNote')}</p>
         </CardContent>
       </Card>
@@ -146,23 +145,27 @@ export const CalendarView = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Calendar and Recent Entries */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <Card className="lg:col-span-2 hover:shadow-lg transition-shadow duration-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <CalendarDays className="h-5 w-5" />
-              <span>{t('calendar')}</span>
-              <Badge variant="secondary">{moodEntries.length} {t('entries')}</Badge>
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+              <div className="flex items-center space-x-2">
+                <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="text-lg sm:text-xl">{t('calendar')}</span>
+              </div>
+              <Badge variant="secondary" className="w-fit text-xs sm:text-sm">
+                {moodEntries.length} {t('entries')}
+              </Badge>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6">
             <Calendar
               mode="single"
               selected={selectedDate}
               onSelect={handleDateClick}
-              className="rounded-md border w-full"
+              className="rounded-md border w-full mx-auto"
               modifiers={{
                 mood: (date) => !!getMoodForDate(date),
               }}
@@ -176,11 +179,11 @@ export const CalendarView = () => {
                     <div className="relative">
                       <button
                         {...props}
-                        className={entry ? 'font-bold' : ''}
+                        className={`${entry ? 'font-bold' : ''} w-full h-8 sm:h-9 text-sm`}
                       >
                         {date.getDate()}
                         {entry && (
-                          <div className="absolute -top-1 -right-1 text-lg">
+                          <div className="absolute -top-1 -right-1 text-xs sm:text-sm">
                             {entry.mood_emoji}
                           </div>
                         )}
@@ -194,18 +197,18 @@ export const CalendarView = () => {
         </Card>
 
         <Card className="hover:shadow-lg transition-shadow duration-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <BarChart3 className="h-5 w-5" />
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="flex items-center space-x-2 text-lg sm:text-xl">
+              <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>Recent Entries</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3 max-h-96 overflow-y-auto">
+            <div className="space-y-2 sm:space-y-3 max-h-80 sm:max-h-96 overflow-y-auto">
               {moodEntries.slice(0, 8).map((entry) => (
                 <div
                   key={entry.id}
-                  className={`p-3 rounded-lg border cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-105 ${
+                  className={`p-3 rounded-lg border cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-105 active:scale-95 ${
                     moodColors[parseInt(entry.mood_scale) - 1]
                   }`}
                   onClick={() => {
@@ -217,8 +220,8 @@ export const CalendarView = () => {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center space-x-2">
-                      <span className="text-xl">{entry.mood_emoji}</span>
-                      <span className="font-medium text-sm">{format(new Date(entry.date), 'MMM dd')}</span>
+                      <span className="text-lg sm:text-xl">{entry.mood_emoji}</span>
+                      <span className="font-medium text-xs sm:text-sm">{format(new Date(entry.date), 'MMM dd')}</span>
                     </div>
                     <Badge variant="outline" className="text-xs">
                       {getMoodLabel(parseInt(entry.mood_scale))}
@@ -232,9 +235,9 @@ export const CalendarView = () => {
                 </div>
               ))}
               {moodEntries.length === 0 && (
-                <div className="text-center py-8 text-muted-foreground">
-                  <CalendarDays className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>{t('noMoodEntries')}</p>
+                <div className="text-center py-6 sm:py-8 text-muted-foreground">
+                  <CalendarDays className="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 opacity-50" />
+                  <p className="text-sm sm:text-base">{t('noMoodEntries')}</p>
                   <p className="text-xs">{t('startTracking')}</p>
                 </div>
               )}
@@ -247,10 +250,10 @@ export const CalendarView = () => {
       <MoodInsights moodData={moodEntries} />
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md mx-2 sm:mx-auto">
+        <DialogContent className="max-w-sm sm:max-w-md mx-2 sm:mx-auto max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="flex items-center space-x-2">
-              <Edit className="h-5 w-5" />
+            <DialogTitle className="flex items-center space-x-2 text-base sm:text-lg">
+              <Edit className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>
                 {selectedEntry && format(new Date(selectedEntry.date), 'MMMM dd, yyyy')}
               </span>
@@ -258,18 +261,18 @@ export const CalendarView = () => {
           </DialogHeader>
 
           {selectedEntry && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6 px-1 sm:px-0">
               <div>
-                <label className="text-sm font-medium mb-3 block flex items-center space-x-2">
+                <label className="text-sm font-medium mb-3 block flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
                   <span>Mood Rating</span>
-                  <Badge variant="outline">{getMoodLabel(editingMood)}</Badge>
+                  <Badge variant="outline" className="w-fit text-xs">{getMoodLabel(editingMood)}</Badge>
                 </label>
                 <div className="grid grid-cols-5 gap-1 sm:gap-2">
                   {moodEmojis.map((emoji, index) => (
                     <Button
                       key={index}
                       variant={editingMood === index + 1 ? 'default' : 'outline'}
-                      className={`h-12 sm:h-16 transition-all duration-200 ${
+                      className={`h-12 sm:h-16 transition-all duration-200 active:scale-95 ${
                         editingMood === index + 1 ? 'scale-105 shadow-lg' : 'hover:scale-105'
                       }`}
                       onClick={() => setEditingMood(index + 1)}
@@ -293,7 +296,7 @@ export const CalendarView = () => {
                   value={editingNotes}
                   onChange={(e) => setEditingNotes(e.target.value)}
                   placeholder="What influenced your mood? Any thoughts or reflections..."
-                  className="min-h-[120px] resize-none"
+                  className="min-h-[100px] sm:min-h-[120px] resize-none"
                   maxLength={500}
                 />
                 <p className="text-xs text-muted-foreground mt-1">
@@ -304,7 +307,7 @@ export const CalendarView = () => {
               <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                 <Button
                   onClick={updateMoodEntry}
-                  className="flex-1 h-11"
+                  className="flex-1 h-10 sm:h-11"
                   size="lg"
                 >
                   <Save className="h-4 w-4 mr-2" />
@@ -313,7 +316,7 @@ export const CalendarView = () => {
                 <Button
                   variant="destructive"
                   onClick={deleteMoodEntry}
-                  className="h-11 px-6"
+                  className="h-10 sm:h-11 px-4 sm:px-6"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

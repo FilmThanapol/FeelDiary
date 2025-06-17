@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -171,10 +170,10 @@ export const Dashboard = () => {
 
   if (!user) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <MoodEntry />
         <Card>
-          <CardContent className="p-6 text-center">
+          <CardContent className="p-4 sm:p-6 text-center">
             <p className="text-muted-foreground">{t('guestModeNote')}</p>
           </CardContent>
         </Card>
@@ -183,34 +182,34 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <MoodEntry />
 
       {/* Enhanced Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         <Card className="relative overflow-hidden border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow duration-200">
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">{t('totalEntries')}</p>
-                <p className="text-3xl font-bold text-blue-600">{stats.totalEntries}</p>
-                <p className="text-xs text-muted-foreground mt-1">Mood entries logged</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">{t('totalEntries')}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-blue-600">{stats.totalEntries}</p>
+                <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Mood entries logged</p>
               </div>
-              <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
-                <Calendar className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              <div className="p-2 sm:p-3 bg-blue-100 dark:bg-blue-900 rounded-full flex-shrink-0">
+                <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="relative overflow-hidden border-l-4 border-l-green-500 hover:shadow-lg transition-shadow duration-200">
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">{t('averageMood')}</p>
-                <div className="flex items-center space-x-2">
-                  <p className="text-3xl font-bold text-green-600">{stats.averageMood}</p>
-                  <span className="text-lg text-muted-foreground">/5</span>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">{t('averageMood')}</p>
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <p className="text-2xl sm:text-3xl font-bold text-green-600">{stats.averageMood}</p>
+                  <span className="text-sm sm:text-lg text-muted-foreground">/5</span>
                 </div>
                 <div className="flex items-center space-x-1 mt-1">
                   <Badge variant={stats.moodTrend === 'improving' ? 'default' : stats.moodTrend === 'declining' ? 'destructive' : 'secondary'} className="text-xs">
@@ -218,46 +217,46 @@ export const Dashboard = () => {
                   </Badge>
                 </div>
               </div>
-              <div className="p-3 bg-green-100 dark:bg-green-900 rounded-full">
-                <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
+              <div className="p-2 sm:p-3 bg-green-100 dark:bg-green-900 rounded-full flex-shrink-0">
+                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-green-600 dark:text-green-400" />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="relative overflow-hidden border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow duration-200">
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">{t('currentStreak')}</p>
-                <div className="flex items-center space-x-2">
-                  <p className="text-3xl font-bold text-orange-600">{stats.streak}</p>
-                  <span className="text-lg text-muted-foreground">{t('days')}</span>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">{t('currentStreak')}</p>
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <p className="text-2xl sm:text-3xl font-bold text-orange-600">{stats.streak}</p>
+                  <span className="text-sm sm:text-lg text-muted-foreground">{t('days')}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Keep it going! 🔥</p>
+                <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Keep it going! 🔥</p>
               </div>
-              <div className="p-3 bg-orange-100 dark:bg-orange-900 rounded-full">
-                <Zap className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+              <div className="p-2 sm:p-3 bg-orange-100 dark:bg-orange-900 rounded-full flex-shrink-0">
+                <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600 dark:text-orange-400" />
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card className="relative overflow-hidden border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow duration-200">
-          <CardContent className="p-6">
+          <CardContent className="p-4 sm:p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">{t('weeklyGoal')}</p>
-                <div className="flex items-center space-x-2">
-                  <p className="text-3xl font-bold text-purple-600">{stats.weeklyProgress}</p>
-                  <span className="text-lg text-muted-foreground">/{stats.weeklyGoal}</span>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">{t('weeklyGoal')}</p>
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <p className="text-2xl sm:text-3xl font-bold text-purple-600">{stats.weeklyProgress}</p>
+                  <span className="text-sm sm:text-lg text-muted-foreground">/{stats.weeklyGoal}</span>
                 </div>
                 <div className="mt-2">
                   <Progress value={(stats.weeklyProgress / stats.weeklyGoal) * 100} className="h-2" />
                 </div>
               </div>
-              <div className="p-3 bg-purple-100 dark:bg-purple-900 rounded-full">
-                <Target className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+              <div className="p-2 sm:p-3 bg-purple-100 dark:bg-purple-900 rounded-full flex-shrink-0">
+                <Target className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600 dark:text-purple-400" />
               </div>
             </div>
           </CardContent>
@@ -267,18 +266,18 @@ export const Dashboard = () => {
       {/* Enhanced Charts */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
         <Card className="hover:shadow-lg transition-shadow duration-200">
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle className="flex items-center space-x-2">
-                <TrendingUp className="h-5 w-5" />
+          <CardHeader className="pb-3 sm:pb-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0">
+              <CardTitle className="flex items-center space-x-2 text-lg sm:text-xl">
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span>{t('moodTrends')}</span>
               </CardTitle>
-              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+              <div className="flex flex-col xs:flex-row space-y-2 xs:space-y-0 xs:space-x-2">
                 <Button
                   variant={timeRange === '7' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setTimeRange('7')}
-                  className="text-xs sm:text-sm"
+                  className="text-xs sm:text-sm h-8 px-3"
                 >
                   {t('last7Days')}
                 </Button>
@@ -286,15 +285,15 @@ export const Dashboard = () => {
                   variant={timeRange === '30' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setTimeRange('30')}
-                  className="text-xs sm:text-sm"
+                  className="text-xs sm:text-sm h-8 px-3"
                 >
                   {t('last30Days')}
                 </Button>
               </div>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="h-64 sm:h-80">
+          <CardContent className="px-3 sm:px-6">
+            <div className="h-48 sm:h-64 md:h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={prepareChartData()}>
                   <defs>
@@ -307,29 +306,32 @@ export const Dashboard = () => {
                   <XAxis
                     dataKey="date"
                     stroke="#64748b"
-                    fontSize={12}
+                    fontSize={10}
+                    tick={{ fontSize: 10 }}
                   />
                   <YAxis
                     domain={[1, 5]}
                     stroke="#64748b"
-                    fontSize={12}
+                    fontSize={10}
+                    tick={{ fontSize: 10 }}
                   />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: 'white',
                       border: '1px solid #e2e8f0',
                       borderRadius: '8px',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                      fontSize: '12px'
                     }}
                   />
                   <Area
                     type="monotone"
                     dataKey="mood"
                     stroke="#3b82f6"
-                    strokeWidth={3}
+                    strokeWidth={2}
                     fill="url(#moodGradient)"
-                    dot={{ fill: '#3b82f6', strokeWidth: 2, r: 5 }}
-                    activeDot={{ r: 7, stroke: '#3b82f6', strokeWidth: 2 }}
+                    dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
+                    activeDot={{ r: 5, stroke: '#3b82f6', strokeWidth: 2 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -338,22 +340,22 @@ export const Dashboard = () => {
         </Card>
 
         <Card className="hover:shadow-lg transition-shadow duration-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Smile className="h-5 w-5" />
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="flex items-center space-x-2 text-lg sm:text-xl">
+              <Smile className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>{t('moodDistribution')}</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="h-64 sm:h-80">
+          <CardContent className="px-3 sm:px-6">
+            <div className="h-48 sm:h-64 md:h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={preparePieData()}
                     cx="50%"
                     cy="50%"
-                    innerRadius={40}
-                    outerRadius={100}
+                    innerRadius={30}
+                    outerRadius={80}
                     paddingAngle={5}
                     dataKey="value"
                     label={({ name, value, percent }) => `${name}: ${value} (${(percent * 100).toFixed(0)}%)`}
@@ -373,7 +375,8 @@ export const Dashboard = () => {
                       backgroundColor: 'white',
                       border: '1px solid #e2e8f0',
                       borderRadius: '8px',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                      fontSize: '12px'
                     }}
                   />
                 </PieChart>
@@ -386,30 +389,30 @@ export const Dashboard = () => {
       {/* Insights Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <Card className="lg:col-span-2 hover:shadow-lg transition-shadow duration-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Brain className="h-5 w-5" />
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="flex items-center space-x-2 text-lg sm:text-xl">
+              <Brain className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>Mood Insights</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-                <h4 className="font-semibold text-blue-800 dark:text-blue-200">Best Mood</h4>
-                <p className="text-2xl font-bold text-blue-600">{stats.bestMood}/5</p>
-                <p className="text-sm text-blue-600 dark:text-blue-300">Your highest recorded mood</p>
+          <CardContent className="space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="p-3 sm:p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+                <h4 className="font-semibold text-blue-800 dark:text-blue-200 text-sm sm:text-base">Best Mood</h4>
+                <p className="text-xl sm:text-2xl font-bold text-blue-600">{stats.bestMood}/5</p>
+                <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-300">Your highest recorded mood</p>
               </div>
-              <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg">
-                <h4 className="font-semibold text-green-800 dark:text-green-200">Improvement Rate</h4>
-                <p className="text-2xl font-bold text-green-600">
+              <div className="p-3 sm:p-4 bg-green-50 dark:bg-green-950 rounded-lg">
+                <h4 className="font-semibold text-green-800 dark:text-green-200 text-sm sm:text-base">Improvement Rate</h4>
+                <p className="text-xl sm:text-2xl font-bold text-green-600">
                   {stats.improvementRate > 0 ? '+' : ''}{stats.improvementRate}%
                 </p>
-                <p className="text-sm text-green-600 dark:text-green-300">Compared to earlier period</p>
+                <p className="text-xs sm:text-sm text-green-600 dark:text-green-300">Compared to earlier period</p>
               </div>
             </div>
-            <div className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 rounded-lg">
-              <h4 className="font-semibold text-purple-800 dark:text-purple-200">Weekly Summary</h4>
-              <p className="text-sm text-purple-600 dark:text-purple-300 mt-1">
+            <div className="p-3 sm:p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 rounded-lg">
+              <h4 className="font-semibold text-purple-800 dark:text-purple-200 text-sm sm:text-base">Weekly Summary</h4>
+              <p className="text-xs sm:text-sm text-purple-600 dark:text-purple-300 mt-1">
                 You've logged {stats.weeklyProgress} out of {stats.weeklyGoal} days this week.
                 {stats.weeklyProgress >= stats.weeklyGoal ? ' Amazing consistency! 🎉' :
                  stats.weeklyProgress >= stats.weeklyGoal * 0.7 ? ' You\'re doing great! Keep it up! 💪' :
@@ -420,19 +423,19 @@ export const Dashboard = () => {
         </Card>
 
         <Card className="hover:shadow-lg transition-shadow duration-200">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Download className="h-5 w-5" />
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="flex items-center space-x-2 text-lg sm:text-xl">
+              <Download className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>{t('exportData')}</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <Button onClick={exportToCSV} className="w-full flex items-center justify-center space-x-2">
+          <CardContent className="space-y-3 sm:space-y-4">
+            <Button onClick={exportToCSV} className="w-full flex items-center justify-center space-x-2 h-10 sm:h-11">
               <Download className="h-4 w-4" />
-              <span>{t('exportCSV')}</span>
+              <span className="text-sm sm:text-base">{t('exportCSV')}</span>
             </Button>
             <div className="text-center">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 Export your mood data for external analysis or backup
               </p>
             </div>

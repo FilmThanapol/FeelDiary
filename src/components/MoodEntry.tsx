@@ -12,7 +12,6 @@ import { Heart, Save, Edit3 } from 'lucide-react';
 
 const moodEmojis = ['😢', '😞', '😐', '😊', '😄'];
 const moodColors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500', 'bg-blue-500'];
-// These will be translated dynamically in the component
 
 export const MoodEntry = () => {
   const { user } = useAuth();
@@ -125,7 +124,7 @@ export const MoodEntry = () => {
   if (loading) {
     return (
       <Card>
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <div className="text-center">{t('loading')}</div>
         </CardContent>
       </Card>
@@ -134,41 +133,41 @@ export const MoodEntry = () => {
 
   return (
     <Card className="relative overflow-hidden border-t-4 border-t-primary hover:shadow-lg transition-all duration-300">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center justify-between">
+      <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6 pt-4 sm:pt-6">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
           <div className="flex items-center space-x-2">
-            <Heart className="h-5 w-5 text-red-500" />
-            <span>{t('todayMood')}</span>
+            <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-red-500" />
+            <span className="text-lg sm:text-xl">{t('todayMood')}</span>
             {todayEntry && (
-              <Badge variant="secondary" className="ml-2">
+              <Badge variant="secondary" className="ml-2 text-xs">
                 Updated
               </Badge>
             )}
           </div>
           {todayEntry && (
             <div className="flex items-center space-x-2">
-              <span className="text-3xl animate-pulse">{todayEntry.mood_emoji}</span>
-              <Badge variant="outline">{getMoodLabel(parseInt(todayEntry.mood_scale))}</Badge>
+              <span className="text-2xl sm:text-3xl animate-pulse">{todayEntry.mood_emoji}</span>
+              <Badge variant="outline" className="text-xs sm:text-sm">{getMoodLabel(parseInt(todayEntry.mood_scale))}</Badge>
             </div>
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6 pb-4 sm:pb-6">
         <div>
-          <h3 className="text-sm font-medium mb-4 flex items-center space-x-2">
+          <h3 className="text-sm font-medium mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
             <span>{t('howAreYou')}</span>
             {selectedMood > 0 && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs w-fit">
                 {getMoodDescription(selectedMood)}
               </Badge>
             )}
           </h3>
-          <div className="grid grid-cols-5 gap-2 sm:gap-3">
+          <div className="grid grid-cols-5 gap-1 sm:gap-2 md:gap-3">
             {moodEmojis.map((emoji, index) => (
               <Button
                 key={index}
                 variant={selectedMood === index + 1 ? 'default' : 'outline'}
-                className={`h-16 sm:h-20 text-2xl sm:text-3xl transition-all duration-200 hover:scale-105 ${
+                className={`h-14 sm:h-16 md:h-20 text-xl sm:text-2xl md:text-3xl transition-all duration-200 hover:scale-105 active:scale-95 ${
                   selectedMood === index + 1
                     ? `${moodColors[index]} text-white shadow-lg scale-105`
                     : 'hover:bg-muted'
@@ -194,7 +193,7 @@ export const MoodEntry = () => {
             placeholder={t('notesPlaceholder')}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="min-h-[120px] resize-none transition-all duration-200 focus:ring-2 focus:ring-primary/20"
+            className="min-h-[100px] sm:min-h-[120px] resize-none transition-all duration-200 focus:ring-2 focus:ring-primary/20"
             maxLength={500}
           />
           <p className="text-xs text-muted-foreground">
@@ -202,11 +201,11 @@ export const MoodEntry = () => {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+        <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:space-x-3">
           <Button
             onClick={saveMoodEntry}
             disabled={selectedMood === null || !user}
-            className="flex-1 h-12 text-base font-medium transition-all duration-200 hover:scale-105"
+            className="flex-1 h-11 sm:h-12 text-sm sm:text-base font-medium transition-all duration-200 hover:scale-105 active:scale-95"
             size="lg"
           >
             <Save className="h-4 w-4 mr-2" />
@@ -219,7 +218,7 @@ export const MoodEntry = () => {
                 setSelectedMood(parseInt(todayEntry.mood_scale));
                 setNotes(todayEntry.notes || '');
               }}
-              className="h-12 px-6"
+              className="h-11 sm:h-12 px-4 sm:px-6 text-sm sm:text-base"
             >
               Reset
             </Button>
@@ -227,9 +226,11 @@ export const MoodEntry = () => {
         </div>
 
         {!user && (
-          <p className="text-sm text-muted-foreground text-center">
-            {t('guestModeNote')}
-          </p>
+          <div className="text-center p-3 sm:p-4 bg-muted/50 rounded-lg">
+            <p className="text-sm text-muted-foreground">
+              {t('guestModeNote')}
+            </p>
+          </div>
         )}
       </CardContent>
     </Card>
