@@ -8,10 +8,10 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
-import { Heart, Save, Edit3 } from 'lucide-react';
+import { Heart, Save, Edit3, Sparkles } from 'lucide-react';
 
 const moodEmojis = ['😢', '😞', '😐', '😊', '😄'];
-const moodColors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-green-500', 'bg-blue-500'];
+const moodColors = ['mood-1', 'mood-2', 'mood-3', 'mood-4', 'mood-5'];
 
 export const MoodEntry = () => {
   const { user } = useAuth();
@@ -79,7 +79,7 @@ export const MoodEntry = () => {
         
         toast({
           title: t('success'),
-          description: 'Mood updated successfully!',
+          description: 'Mood updated successfully! ✨',
         });
       } else {
         const { error } = await supabase
@@ -90,7 +90,7 @@ export const MoodEntry = () => {
         
         toast({
           title: t('success'),
-          description: 'Mood saved successfully!',
+          description: 'Mood saved successfully! 🎉',
         });
       }
 
@@ -123,60 +123,71 @@ export const MoodEntry = () => {
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="p-4 sm:p-6">
-          <div className="text-center">{t('loading')}</div>
+      <Card className="gradient-card shadow-cute rounded-3xl border-0 hover-lift">
+        <CardContent className="p-6 text-center">
+          <div className="animate-pulse-soft text-lg">{t('loading')} ✨</div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="relative overflow-hidden border-t-4 border-t-primary hover:shadow-lg transition-all duration-300">
-      <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6 pt-4 sm:pt-6">
-        <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-          <div className="flex items-center space-x-2">
-            <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-red-500" />
-            <span className="text-lg sm:text-xl">{t('todayMood')}</span>
+    <Card className="gradient-card shadow-cute rounded-3xl border-0 hover-lift overflow-hidden relative">
+      {/* Cute floating elements */}
+      <div className="absolute top-4 right-4 text-2xl animate-float opacity-50">✨</div>
+      <div className="absolute top-8 left-4 text-xl animate-bounce-soft opacity-30">💖</div>
+      
+      <CardHeader className="pb-4 px-6 pt-6 relative">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 text-white animate-pulse-soft">
+              <Heart className="h-5 w-5" />
+            </div>
+            <span className="text-xl font-bold text-gradient">{t('todayMood')}</span>
             {todayEntry && (
-              <Badge variant="secondary" className="ml-2 text-xs">
-                Updated
+              <Badge variant="secondary" className="ml-2 text-xs bg-green-100 text-green-800 rounded-full px-3 py-1 animate-bounce-soft">
+                Updated ✓
               </Badge>
             )}
           </div>
           {todayEntry && (
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl sm:text-3xl animate-pulse">{todayEntry.mood_emoji}</span>
-              <Badge variant="outline" className="text-xs sm:text-sm">{getMoodLabel(parseInt(todayEntry.mood_scale))}</Badge>
+            <div className="flex items-center space-x-3">
+              <span className="text-4xl animate-wiggle">{todayEntry.mood_emoji}</span>
+              <Badge variant="outline" className="text-sm bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 border-purple-200">
+                {getMoodLabel(parseInt(todayEntry.mood_scale))}
+              </Badge>
             </div>
           )}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6 pb-4 sm:pb-6">
+      
+      <CardContent className="space-y-6 px-6 pb-6">
         <div>
-          <h3 className="text-sm font-medium mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
-            <span>{t('howAreYou')}</span>
+          <h3 className="text-sm font-semibold mb-4 flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
+            <span className="text-purple-700 dark:text-purple-300">How are you feeling today? 🌟</span>
             {selectedMood > 0 && (
-              <Badge variant="outline" className="text-xs w-fit">
+              <Badge variant="outline" className={`text-xs w-fit rounded-full px-3 py-1 ${moodColors[selectedMood - 1]} border-0 text-gray-700 dark:text-gray-200`}>
                 {getMoodDescription(selectedMood)}
               </Badge>
             )}
           </h3>
-          <div className="grid grid-cols-5 gap-1 sm:gap-2 md:gap-3">
+          <div className="grid grid-cols-5 gap-3">
             {moodEmojis.map((emoji, index) => (
               <Button
                 key={index}
                 variant={selectedMood === index + 1 ? 'default' : 'outline'}
-                className={`h-14 sm:h-16 md:h-20 text-xl sm:text-2xl md:text-3xl transition-all duration-200 hover:scale-105 active:scale-95 ${
+                className={`h-16 sm:h-20 text-2xl sm:text-3xl transition-all duration-300 hover-scale rounded-2xl border-2 ${
                   selectedMood === index + 1
-                    ? `${moodColors[index]} text-white shadow-lg scale-105`
-                    : 'hover:bg-muted'
+                    ? `gradient-button text-white shadow-cute scale-110 border-0`
+                    : 'bg-white/70 hover:bg-white/90 backdrop-blur-sm border-purple-200 hover:border-purple-300'
                 }`}
                 onClick={() => setSelectedMood(index + 1)}
               >
                 <div className="text-center">
-                  <div className="mb-1">{emoji}</div>
-                  <div className="text-xs font-medium hidden sm:block">{getMoodLabel(index + 1)}</div>
+                  <div className="mb-1 filter drop-shadow-sm">{emoji}</div>
+                  <div className="text-xs font-medium hidden sm:block opacity-80">
+                    {getMoodLabel(index + 1)}
+                  </div>
                 </div>
               </Button>
             ))}
@@ -184,32 +195,35 @@ export const MoodEntry = () => {
         </div>
 
         <div className="space-y-3">
-          <label className="text-sm font-medium flex items-center space-x-2">
+          <label className="text-sm font-semibold flex items-center space-x-2 text-purple-700 dark:text-purple-300">
             <Edit3 className="h-4 w-4" />
-            <span>{t('addNotes')}</span>
-            <span className="text-xs text-muted-foreground">(Optional)</span>
+            <span>Share your thoughts</span>
+            <Sparkles className="h-3 w-3 animate-pulse-soft" />
+            <span className="text-xs text-muted-foreground font-normal">(Optional)</span>
           </label>
           <Textarea
-            placeholder={t('notesPlaceholder')}
+            placeholder="What made you feel this way? Any special moments or thoughts to remember... ✨"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="min-h-[100px] sm:min-h-[120px] resize-none transition-all duration-200 focus:ring-2 focus:ring-primary/20"
+            className="min-h-[120px] resize-none transition-all duration-300 focus:ring-4 focus:ring-purple-200 bg-white/70 backdrop-blur-sm border-purple-200 rounded-2xl text-gray-700 placeholder:text-purple-400"
             maxLength={500}
           />
-          <p className="text-xs text-muted-foreground">
-            {notes.length}/500 characters
+          <p className="text-xs text-purple-500 flex items-center space-x-1">
+            <span>{notes.length}/500 characters</span>
+            {notes.length > 400 && <span className="animate-bounce-soft">📝</span>}
           </p>
         </div>
 
-        <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:space-x-3">
+        <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:space-x-4">
           <Button
             onClick={saveMoodEntry}
             disabled={selectedMood === null || !user}
-            className="flex-1 h-11 sm:h-12 text-sm sm:text-base font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+            className="flex-1 h-12 text-base font-semibold transition-all duration-300 hover-scale gradient-button text-white rounded-2xl shadow-cute"
             size="lg"
           >
             <Save className="h-4 w-4 mr-2" />
             {todayEntry ? t('updateMood') : t('saveMood')}
+            <Sparkles className="h-4 w-4 ml-2 animate-pulse-soft" />
           </Button>
           {todayEntry && (
             <Button
@@ -218,17 +232,19 @@ export const MoodEntry = () => {
                 setSelectedMood(parseInt(todayEntry.mood_scale));
                 setNotes(todayEntry.notes || '');
               }}
-              className="h-11 sm:h-12 px-4 sm:px-6 text-sm sm:text-base"
+              className="h-12 px-6 text-base bg-white/70 hover:bg-white/90 backdrop-blur-sm border-purple-200 rounded-2xl hover-scale"
             >
-              Reset
+              Reset 🔄
             </Button>
           )}
         </div>
 
         {!user && (
-          <div className="text-center p-3 sm:p-4 bg-muted/50 rounded-lg">
-            <p className="text-sm text-muted-foreground">
-              {t('guestModeNote')}
+          <div className="text-center p-4 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 rounded-2xl border border-yellow-200">
+            <p className="text-sm text-yellow-800 dark:text-yellow-200 flex items-center justify-center space-x-2">
+              <span>🎭</span>
+              <span>{t('guestModeNote')}</span>
+              <span>✨</span>
             </p>
           </div>
         )}

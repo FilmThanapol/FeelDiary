@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -37,19 +38,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -98,6 +92,124 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 text-foreground min-h-screen;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
+
+  .dark body {
+    @apply bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950;
+  }
+}
+
+@layer components {
+  /* Cute animations */
+  .animate-bounce-soft {
+    animation: bounce-soft 2s infinite;
+  }
+
+  .animate-wiggle {
+    animation: wiggle 1s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Cute gradient backgrounds */
+  .gradient-card {
+    @apply bg-gradient-to-br from-white via-pink-50 to-purple-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-indigo-900/20;
+  }
+
+  .gradient-button {
+    @apply bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500;
+  }
+
+  /* Cute shadows */
+  .shadow-cute {
+    box-shadow: 0 8px 32px rgba(255, 182, 193, 0.3), 0 4px 16px rgba(221, 160, 221, 0.2);
+  }
+
+  .dark .shadow-cute {
+    box-shadow: 0 8px 32px rgba(139, 69, 19, 0.2), 0 4px 16px rgba(75, 0, 130, 0.1);
+  }
+
+  /* Cute hover effects */
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-cute;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-200 ease-out hover:scale-105 active:scale-95;
+  }
+
+  /* Cute mood colors */
+  .mood-1 { @apply bg-gradient-to-r from-red-200 to-pink-200 dark:from-red-800 dark:to-pink-800; }
+  .mood-2 { @apply bg-gradient-to-r from-orange-200 to-yellow-200 dark:from-orange-800 dark:to-yellow-800; }
+  .mood-3 { @apply bg-gradient-to-r from-yellow-200 to-amber-200 dark:from-yellow-800 dark:to-amber-800; }
+  .mood-4 { @apply bg-gradient-to-r from-green-200 to-emerald-200 dark:from-green-800 dark:to-emerald-800; }
+  .mood-5 { @apply bg-gradient-to-r from-blue-200 to-cyan-200 dark:from-blue-800 dark:to-cyan-800; }
+
+  /* Cute text effects */
+  .text-gradient {
+    @apply bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent;
+  }
+}
+
+@keyframes bounce-soft {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(-5px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Cute scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-pink-100 dark:bg-gray-800 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-pink-300 to-purple-300 dark:from-pink-700 dark:to-purple-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply from-pink-400 to-purple-400 dark:from-pink-600 dark:to-purple-600;
 }
