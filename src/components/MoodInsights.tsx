@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -50,7 +49,7 @@ export const MoodInsights = ({ moodData }: MoodInsightsProps) => {
     }, {} as Record<number, number>);
     
     const mostCommonMood = Object.entries(moodCounts)
-      .sort(([,a], [,b]) => b - a)[0]?.[0] || '3';
+      .sort(([,a], [,b]) => (b as number) - (a as number))[0]?.[0] || '3';
 
     // Calculate weekly average
     const last7Days = moodData.slice(-7);
