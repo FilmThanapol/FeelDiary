@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -33,13 +34,17 @@ export const MoodInsights = ({ moodData }: MoodInsightsProps) => {
 
   const calculateInsights = () => {
     // Find best and worst days
-    const sortedByMood = [...moodData].sort((a, b) => Number(b.mood_scale) - Number(a.mood_scale));
+    const sortedByMood = [...moodData].sort((a, b) => {
+      const moodA = Number(a.mood_scale) || 0;
+      const moodB = Number(b.mood_scale) || 0;
+      return moodB - moodA;
+    });
     const bestDay = sortedByMood[0]?.date || '';
     const worstDay = sortedByMood[sortedByMood.length - 1]?.date || '';
 
     // Most common mood
     const moodCounts = moodData.reduce((acc, entry) => {
-      const mood = Number(entry.mood_scale);
+      const mood = Number(entry.mood_scale) || 0;
       acc[mood] = (acc[mood] || 0) + 1;
       return acc;
     }, {} as Record<number, number>);
@@ -50,7 +55,7 @@ export const MoodInsights = ({ moodData }: MoodInsightsProps) => {
     // Calculate weekly average
     const last7Days = moodData.slice(-7);
     const weeklyAverage = last7Days.length > 0 
-      ? last7Days.reduce((sum, entry) => sum + Number(entry.mood_scale), 0) / last7Days.length
+      ? last7Days.reduce((sum, entry) => sum + (Number(entry.mood_scale) || 0), 0) / last7Days.length
       : 0;
 
     // Generate recommendations
@@ -72,7 +77,8 @@ export const MoodInsights = ({ moodData }: MoodInsightsProps) => {
     let currentStreak = 0;
     
     for (let i = 0; i < data.length; i++) {
-      if (Number(data[i].mood_scale) >= 4) {
+      const moodValue = Number(data[i].mood_scale) || 0;
+      if (moodValue >= 4) {
         currentStreak++;
         maxStreak = Math.max(maxStreak, currentStreak);
       } else {
@@ -89,8 +95,8 @@ export const MoodInsights = ({ moodData }: MoodInsightsProps) => {
     const firstWeek = data.slice(0, 7);
     const lastWeek = data.slice(-7);
     
-    const firstAvg = firstWeek.reduce((sum, entry) => sum + Number(entry.mood_scale), 0) / firstWeek.length;
-    const lastAvg = lastWeek.reduce((sum, entry) => sum + Number(entry.mood_scale), 0) / lastWeek.length;
+    const firstAvg = firstWeek.reduce((sum, entry) => sum + (Number(entry.mood_scale) || 0), 0) / firstWeek.length;
+    const lastAvg = lastWeek.reduce((sum, entry) => sum + (Number(entry.mood_scale) || 0), 0) / lastWeek.length;
     
     const diff = lastAvg - firstAvg;
     if (diff > 0.5) return 'improving';
