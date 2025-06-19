@@ -99,7 +99,6 @@ const resources = {
       // Heatmap
       moodHeatmap: 'Mood Heatmap',
       dailyMoodOverview: 'Daily Mood Overview',
-      totalEntries: 'Total Entries',
       consistency: 'Consistency',
       bestMood: 'Best Mood',
       lowestMood: 'Lowest Mood',
@@ -245,7 +244,6 @@ const resources = {
       // Heatmap
       moodHeatmap: 'แผนที่ความร้อนอารมณ์',
       dailyMoodOverview: 'ภาพรวมอารมณ์รายวัน',
-      totalEntries: 'จำนวนการบันทึกทั้งหมด',
       consistency: 'ความสม่ำเสมอ',
       bestMood: 'อารมณ์ดีที่สุด',
       lowestMood: 'อารมณ์แย่ที่สุด',

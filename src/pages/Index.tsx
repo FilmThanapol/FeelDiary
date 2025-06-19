@@ -14,8 +14,9 @@ import { Calendar, BarChart3, User, Heart, Sparkles, Star } from 'lucide-react';
 const Index = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isGuestMode, setIsGuestMode] = useState(false);
 
-  if (!user) {
+  if (!user && !isGuestMode) {
     return (
       <div className="min-h-screen flex flex-col relative overflow-hidden">
         {/* Cute floating background elements */}
@@ -27,7 +28,7 @@ const Index = () => {
           <div className="absolute bottom-32 right-32 text-4xl opacity-20 animate-float">🌈</div>
         </div>
         
-        <Navbar />
+        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
         <main className="flex-1 flex items-center justify-center p-4">
           <Card className="max-w-2xl w-full gradient-card shadow-cute rounded-3xl border-0 hover-lift">
             <CardContent className="p-8 text-center space-y-6">
@@ -46,7 +47,7 @@ const Index = () => {
                   <span className="text-2xl animate-float">🦄</span>
                 </div>
               </div>
-              <AuthPage />
+              <AuthPage onGuestMode={() => setIsGuestMode(true)} />
             </CardContent>
           </Card>
         </main>
@@ -81,7 +82,7 @@ const Index = () => {
         <div className="absolute top-3/4 right-16 text-2xl opacity-10 animate-pulse-soft">🦋</div>
       </div>
       
-      <Navbar />
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       
       {/* Cute tab navigation */}
       <div className="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-purple-100 dark:border-purple-800">
